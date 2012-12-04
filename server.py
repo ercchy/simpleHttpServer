@@ -40,7 +40,18 @@ def bind_socket(s, host_data):
 		print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message: ' + msg[1]
         sys.exit()
 
-	
+
+def open_thread(conn):
+	conn.send('Welocme to the server. Type something and then hit enter\n')
+
+	while True:
+		data = conn.recv(1024)
+		reply = 'OK...' + data
+		if not data:
+			break
+
+		conn.sendall(reply)
+	conn.close()
 
 
 
@@ -63,16 +74,8 @@ def main():
 	while True:
 		conn, addr = s.accept()
 		print 'Content with ' + addr[0] + ': ' + str(addr[1])
-
-
-		data = conn.recv(1024)
-		reply = 'OK...' + data
-		if not data:
-			break
-
-		conn.sendall(reply)
-
-	conn.close()
+		start_new_thread(open_thread, (conn,))
+	
 	s.close()
 
 
