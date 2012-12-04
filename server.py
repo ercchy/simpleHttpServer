@@ -7,6 +7,7 @@ author: The Ercchynator :)
 """
 import socket
 import sys
+from thread import *
 
 class HostData(object):
 	
@@ -74,7 +75,7 @@ def main():
 	while True:
 		conn, addr = s.accept()
 		print 'Content with ' + addr[0] + ': ' + str(addr[1])
-		start_new_thread(open_thread, (conn,))
+		start_new_thread(open_thread,(conn,))
 	
 	s.close()
 
