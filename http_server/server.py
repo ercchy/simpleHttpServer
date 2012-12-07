@@ -5,15 +5,13 @@ from http_protocol.request import parse_http_request
 from http_protocol.response import HttpResponse
 from http_protocol.response import render_http_response
 
-CURRENT_DIR = os.path.dirname(__file__)
+BUFSIZ = 1024
 
-if __name__=='__main__':
-    HOST = 'localhost'
-    PORT = 5555
-    BUFSIZ = 1024
-    ADDR = (HOST, PORT)
+def run(host, port):
+
+    address = (host, port)
     serversock = socket(AF_INET, SOCK_STREAM)
-    serversock.bind(ADDR)
+    serversock.bind(address)
     serversock.listen(2)
     while 1:
         print 'waiting for connection...'
@@ -32,7 +30,7 @@ if __name__=='__main__':
             response = HttpResponse(protocol=request.protocol, status_code=404)
             response.headers['Content-type'] = 'text/plain'
             response.content = 'This file does not exist!'
-            
+
         response_msg = render_http_response(response)
         clientsock.send(response_msg)
         clientsock.close()
