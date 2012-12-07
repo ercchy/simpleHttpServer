@@ -50,6 +50,7 @@ class BaseSocketServer:
         while True:
             data = request.recv(1024)
             request.sendall('200 HTTP/1.0 %s' % data)
+            request.
 
 
     def serve_forever(self):
