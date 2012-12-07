@@ -2,8 +2,8 @@
 My simple HTTP protocol parsing and handling.
 """
 from nose import tools
-from request import parse_http_request
-from exceptions import HttpParseException
+from ..request import parse_http_request
+from ..exceptions import HttpParseException
 
 
 GOOD_REQUEST_1 = \
@@ -19,7 +19,6 @@ Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3'''
 
 GOOD_REQUEST_2 = \
 '''GET / HTTP/1.1'''
-
 
 BAD_REQUEST_1 = \
 '''

@@ -13,7 +13,8 @@ class HttpRequest(object):
         self.headers = headers
 
     def __str__(self):
-        return 'HttpRequest (method=%s, request_uri=%s, protocol=%s)' % (self.method, self.request_uri, self.protocol)
+        return 'HttpRequest (method=%s, request_uri=%s, protocol=%s)' % \
+               (self.method, self.request_uri, self.protocol)
 
 
 def parse_http_request(data):
@@ -23,17 +24,18 @@ def parse_http_request(data):
 
     data_lines = data.splitlines(False)
 
-    request_cmpts = data_lines[0].split(' ')
+    request_line = data_lines[0]
+    request_cmpts = request_line.split(' ')
 
     if len(request_cmpts) != 3:
-        raise HttpParseException('Cannot parse HTTP request line: %s' % data_lines[0])
+        raise HttpParseException('Cannot parse HTTP request line: %s' % request_line)
 
     method, request_uri, protocol = request_cmpts[0], request_cmpts[1], request_cmpts[2]
 
     headers = {}
     for line in data_lines[1:]:
         if not line:
-            continue
+            break
 
         line_cmpts = line.split(': ')
 
