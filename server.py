@@ -11,39 +11,7 @@ from Queue import Queue
 from threading import Thread
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 
-"""
-def bind_socket(s, host_data):
 
-	try:
-		s.bind((host_data.host, host_data.port))
-		print 'Socket bind complete'
-		return s
-	except socket.error , msg:
-		s.close()
-		print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message: ' + msg[1]
-        sys.exit()
-
-
-def open_thread(conn):
-	
-	data = None
-	while True:
-		try:
-			data = conn.recv(1024)
-			reply = 'HTTP/1.0 200 OK\r\nContent-Type:text/html\r\nConnection:keep-alive\r\n\r\n<html><head>foo</head></html>\r\n'
-			print data
-		except Error as e:
-			print 'Connection is not working dammit' + e
-
-		
-		if not data:
-			break
-
-		conn.sendall(reply)
-
-	conn.close()
-
-"""
 class BaseServer:
     # create an AF_INER, STREAM socket (TCP)
     # Adress family: AF_INET (IPv4)
@@ -80,8 +48,6 @@ class BaseServer:
         while True:
             conn, addr = self.socket.accept()
             print 'Connected with ' + addr[0] + ':' + str(addr[1])
-
-
 
 
 class Worker(Thread):
@@ -134,19 +100,6 @@ class BasicHTTPThreadingServer(ThreadPool, BaseServer):
             #self.pool.add_task(conn)
 
 
-        """
-        try:
-            s.bind((host_data.host, host_data.port))
-            print 'Socket bind complete'
-            return s
-        except socket.error , msg:
-            s.close()
-            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message: ' + msg[1]
-        sys.exit()
-        """
-
-
-
 def test():
     if sys.argv[1:]:
         port = sys.argv[1]
@@ -162,22 +115,6 @@ def test():
     except KeyboardInterrupt:
         httpd.server_close()
 
-
-
-    """
-	s = bind_socket(create_socket(), host_data)
-
-	s.listen(10)
-	print 'Socket is now listening'
-    """
-    """
-	while True:
-		conn, addr = s.accept()
-		print 'Content with ' + addr[0] + ': ' + str(addr[1])
-		start_new_thread(open_thread,(conn,))
-	
-	s.close()
-    """
 
 
 if __name__ == '__main__':
