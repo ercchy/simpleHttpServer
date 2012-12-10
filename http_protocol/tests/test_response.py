@@ -2,15 +2,8 @@
 My simple HTTP protocol parsing and handling.
 """
 from nose import tools
-from ..response import render_http_response
+from http_server.mock_client_socket import MockClientSocket
 from ..response import HttpResponse
-
-class TestClientSocket(object):
-    def __init__(self):
-        self.sent_data = ''
-
-    def send(self, data):
-        self.sent_data += data
 
 
 def test_simple_response():
@@ -28,7 +21,7 @@ Content-type: text/plain
 This is a test'''
 
     #run
-    clientsock = TestClientSocket()
+    clientsock = MockClientSocket()
     response.write_to(clientsock)
 
     #assert
