@@ -5,6 +5,14 @@ from nose import tools
 from ..response import render_http_response
 from ..response import HttpResponse
 
+class TestClientSocket(object):
+    def __init__(self):
+        self.sent_data = ''
+
+    def send(self, data):
+        self.sent_data += data
+
+
 def test_simple_response():
     #setup
     response = HttpResponse(protocol='HTTP/1.1', status_code=200)
@@ -20,10 +28,11 @@ Content-type: text/plain
 This is a test'''
 
     #run
-    response_msg = render_http_response(response)
+    clientsock = TestClientSocket()
+    response.write_to(clientsock)
 
     #assert
-    tools.assert_equals(response_msg, expected_response_msg)
+    tools.assert_equals(clientsock.sent_data, expected_response_msg)
 
 
 
