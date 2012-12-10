@@ -7,7 +7,7 @@ class MockClientSocket(object):
         self.close_called = False
 
 
-    def send(self, data):
+    def sendall(self, data):
         self.sent_data += data
 
 

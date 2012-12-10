@@ -10,7 +10,7 @@ BUFSIZ = 1024
 def handle_request(clientsock):
 
     data = clientsock.recv(BUFSIZ)
-
+    print 'Request: ', data
     request = parse_http_request(data)
 
     file = get_file(request.request_uri)

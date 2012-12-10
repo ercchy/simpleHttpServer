@@ -29,9 +29,11 @@ class HttpResponse(object):
         if self.file:
             self.headers['Content-type'] = self.file.mime_type
             self.headers['Content-Length'] = self.file.file_size
+            #self.headers['Accept-Ranges'] = 'bytes'
 
         response_msg = render_http_response(self)
-        output.send(response_msg)
+        output.sendall(response_msg)
+        print 'Response: ', response_msg
 
         if self.file:
             position = 0
@@ -40,7 +42,7 @@ class HttpResponse(object):
                 while bytes_read != '':
                     print 'position: ', position
                     position += FILE_CHUNK_SIZE
-                    output.send(bytes_read)
+                    output.sendall(bytes_read)
                     bytes_read = f.read(FILE_CHUNK_SIZE)
 
 
