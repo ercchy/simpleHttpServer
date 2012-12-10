@@ -1,9 +1,8 @@
 import os
 from socket import *
-from file_server.helper import get_file
+from file_system.helper import get_file
 from http_protocol.request import parse_http_request
 from http_protocol.response import HttpResponse
-from http_protocol.response import render_http_response
 
 BUFSIZ = 1024
 
@@ -31,7 +30,6 @@ def run(host, port):
             response.headers['Content-type'] = 'text/plain'
             response.content = 'This file does not exist!'
 
-        response_msg = render_http_response(response)
-        clientsock.send(response_msg)
+        response.write_to(clientsock)
         clientsock.close()
 

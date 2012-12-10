@@ -14,10 +14,17 @@ class HttpResponse(object):
         self.status_code = status_code
         self.headers = {}
         self.content = ''
+        self.file = None
+
 
     def __str__(self):
         return 'HttpRequest (protocol=%s, status_code=%s)' % \
                (self.protocol, self.status_code)
+
+
+    def write_to(self, output):
+        response_msg = render_http_response(self)
+        output.send(response_msg)
 
 
 def render_http_response(response):
