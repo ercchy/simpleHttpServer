@@ -34,8 +34,20 @@ class HttpResponse(object):
             self.headers['Content-Length'] = self.file.file_size
             self.headers['Accept-Ranges'] = 'bytes'
             if self.content_range:
-                self.headers['Content-Range'] = 'bytes 0-%s/%s' % (self.file.file_size, self.file.file_size)
+                # TODO parse self.content_range (bytes=444-)
+                range_string = self.content_range.split('=')[1]
+                print range_string
+                range = range_string.split['-']
+                range_start = range [0]
+
+                if len(range) > 1:
+                    range_end = range[1]
+                else:
+                    range_end = self.file.file_size
+
                 self.headers['Transfer-Encoding'] = 'chunked'
+                self.headers['Content-Range'] = 'bytes %s-%s/%s' % (range_start, range_end,
+                                                                    self.file.file_size)
 
         response_msg = render_http_response(self)
         try:
