@@ -30,6 +30,7 @@ class HttpResponse(object):
 
         if self.file:
             self.headers['Content-type'] = self.file.mime_type
+            self.headers['Connection'] = 'keep-alive'
             self.headers['Content-Length'] = self.file.file_size
             self.headers['Accept-Ranges'] = 'bytes'
             if self.content_range:
