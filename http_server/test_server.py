@@ -24,6 +24,7 @@ HTTP_RESPONSE_KNOWN_FILE =\
 '''HTTP/1.1 200 OK
 Content-Length: 16
 Content-type: text/plain
+Accept-Ranges: bytes
 
 This is a test 1'''
 

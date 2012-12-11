@@ -1,4 +1,3 @@
-import os
 from socket import *
 import thread
 from file_system.helper import get_file
@@ -16,7 +15,11 @@ def handle_request(clientsock):
     file = get_file(request.request_uri)
 
     if file.exists:
-        response = HttpResponse(protocol=request.protocol, status_code=200)
+        if 'Range' in request.headers:
+            response = HttpResponse(protocol=request.protocol, status_code=206,
+                content_range=request.headers['Range'])
+        else:
+            response = HttpResponse(protocol=request.protocol, status_code=200)
         response.file = file
     else:
         response = HttpResponse(protocol=request.protocol, status_code=404)
