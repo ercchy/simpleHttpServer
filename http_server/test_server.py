@@ -20,13 +20,43 @@ HTTP_REQUEST_KNOWN_FILE = \
 '''GET /test_1.txt HTTP/1.1
 Host: localhost:5555'''
 
-HTTP_RESPONSE_KNOWN_FILE =\
+HTTP_RESPONSE_KNOWN_FILE = \
 '''HTTP/1.1 200 OK
 Content-Length: 16
 Content-type: text/plain
 Accept-Ranges: bytes
 
 This is a test 1'''
+
+HTTP_REQUEST_RANGE_FROM_ZERO = \
+'''GET /test_1.txt HTTP/1.1
+Host: localhost:5555
+Range: bytes=0-'''
+
+HTTP_RESPONSE_RANGE_FROM_ZERO = \
+'''HTTP/1.1 200 OK
+Content-Length: 16
+Content-type: text/plain
+Accept-Ranges: bytes
+Range: bytes=0-15/16
+
+This is a test 1'''
+
+HTTP_REQUEST_RANGE_FROM_MIDDLE = \
+'''GET /test_1.txt HTTP/1.1
+Host: localhost:5555
+Range: bytes=5-'''
+
+HTTP_RESPONSE_RANGE_FROM_MIDDLE = \
+'''HTTP/1.1 200 OK
+Content-Length: 11
+Content-type: text/plain
+Accept-Ranges: bytes
+Range: bytes=5-15/16
+
+is a test 1'''
+
+# Add another request response for 5-10/16 range
 
 
 def test_handle_request_unknown_file():

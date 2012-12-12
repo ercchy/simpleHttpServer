@@ -15,11 +15,13 @@ def handle_request(clientsock):
     file = get_file(request.request_uri)
 
     if file.exists:
+
         if 'Range' in request.headers:
             response = HttpResponse(protocol=request.protocol, status_code=206,
                 content_range=request.headers['Range'])
         else:
             response = HttpResponse(protocol=request.protocol, status_code=200)
+
         response.file = file
     else:
         response = HttpResponse(protocol=request.protocol, status_code=404)

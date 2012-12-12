@@ -2,6 +2,7 @@
 My simple HTTP protocol parsing and handling.
 """
 import socket
+import re
 from status_codes import HTTP_STATUS_CODES
 
 FILE_CHUNK_SIZE = 1024 * 1024 #4 * 1024 # 4 kilobytes
@@ -30,24 +31,30 @@ class HttpResponse(object):
 
         if self.file:
             self.headers['Content-type'] = self.file.mime_type
-            self.headers['Connection'] = 'keep-alive'
+            #self.headers['Connection'] = 'keep-alive'
             self.headers['Content-Length'] = self.file.file_size
             self.headers['Accept-Ranges'] = 'bytes'
+
+            range_start = 0
+            range_end = self.file.file_size - 1
+
             if self.content_range:
                 # TODO parse self.content_range (bytes=444-)
                 range_string = self.content_range.split('=')[1]
                 print range_string
-                range = range_string.split['-']
-                range_start = range [0]
+                range = re.findall(r'\d+', range_string)
+                range_start = int(range [0])
 
                 if len(range) > 1:
-                    range_end = range[1]
+                    range_end = int(range[1])
                 else:
-                    range_end = self.file.file_size
+                    range_end = self.file.file_size - 1
 
-                self.headers['Transfer-Encoding'] = 'chunked'
+                #self.headers['Transfer-Encoding'] = 'chunked'
                 self.headers['Content-Range'] = 'bytes %s-%s/%s' % (range_start, range_end,
                                                                     self.file.file_size)
+                self.headers['Content-Length'] = range_end - range_start + 1
+
 
         response_msg = render_http_response(self)
         try:
@@ -61,19 +68,22 @@ class HttpResponse(object):
         if self.file:
             position = 0
             with self.file.open() as f:
-                bytes_read = f.read(FILE_CHUNK_SIZE)
-                try:
-                    while bytes_read != '':
-                        print 'position: ', position
-                        position += FILE_CHUNK_SIZE
+                f.seek(range_start)
 
-                        output.sendall(bytes_read)
-
-                        bytes_read = f.read(FILE_CHUNK_SIZE)
-
-                except socket.error, msg:
-                    print 'Send failed ', msg
-                    print ''
+                bytes_read = f.read(range_end-range_start+1)
+                output.sendall(bytes_read)
+#                try:
+#                    while bytes_read != '':
+#                        print 'position: ', position
+#                        position += FILE_CHUNK_SIZE
+#
+#                        output.sendall(bytes_read)
+#
+#                        bytes_read = f.read(FILE_CHUNK_SIZE)
+#
+#                except socket.error, msg:
+#                    print 'Send failed ', msg
+#                    print ''
 
 
 
