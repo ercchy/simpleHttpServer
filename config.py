@@ -13,7 +13,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(module)s %(process)d %(levelname)s %(message)s'
+            'format': '%(asctime)s %(module)s %(process)d %(thread)d %(levelname)s %(message)s'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'

@@ -30,6 +30,17 @@ BAD_REQUEST_2 = \
 Host; localhost:5555
 '''
 
+REQUEST_WITH_RANGE_FROM_ZERO = \
+'''GET /test_1.txt HTTP/1.1
+Host: localhost:5555
+Range: bytes=0-'''
+
+REQUEST_WITH_RANGE_FROM_MIDDLE =\
+'''GET /test_1.txt HTTP/1.1
+Host: localhost:5555
+Range: bytes=5-10'''
+
+
 def test_good_http_request_1():
     # setup
     headers_expected_result = {
@@ -85,6 +96,27 @@ def test_bad_http_request_1():
 @tools.raises(HttpParseException)
 def test_bad_http_request_2():
     parse_http_request(BAD_REQUEST_2)
+
+
+def test_request_parsing_with_range_from_zero():
+    # run
+    http_request = parse_http_request(REQUEST_WITH_RANGE_FROM_ZERO)
+
+    # assert
+    tools.assert_true(http_request.is_range_requested())
+    tools.assert_equals(http_request.get_range(), (0, None))
+
+
+def test_request_parsing_with_range_from_middle():
+    # run
+    http_request = parse_http_request(REQUEST_WITH_RANGE_FROM_MIDDLE)
+
+    # assert
+    tools.assert_true(http_request.is_range_requested())
+    tools.assert_equals(http_request.get_range(), (5, 10))
+
+
+
 
 
 

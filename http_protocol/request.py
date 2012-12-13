@@ -1,7 +1,7 @@
 """
 My simple HTTP protocol parsing and handling.
 """
-
+import re
 from exceptions import HttpParseException
 
 
@@ -12,9 +12,33 @@ class HttpRequest(object):
         self.protocol = protocol
         self.headers = headers
 
+
     def __str__(self):
         return 'HttpRequest (method=%s, request_uri=%s, protocol=%s)' % \
                (self.method, self.request_uri, self.protocol)
+
+
+    def is_range_requested(self):
+        return 'Range' in self.headers
+
+
+    def get_range(self):
+
+        range_header_value = self.headers['Range']
+
+        if range_header_value:
+            range_start, range_end = None, None
+
+            range = re.findall(r'\d+', range_header_value)
+            range_start = int(range[0])
+
+            if len(range) > 1:
+                range_end = int(range[1])
+
+            return (range_start, range_end)
+
+        else:
+            return (None, None)
 
 
 def parse_http_request(data):

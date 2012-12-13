@@ -12,14 +12,16 @@ BUFSIZ = 1024
 def handle_request(clientsock):
 
     data = clientsock.recv(BUFSIZ)
-    print 'Request: ', data
-    request = parse_http_request(data)
 
+    Log.debug('Request received:\n%s', data)
+
+    request = parse_http_request(data)
     file = get_file(request.request_uri)
 
     if file.exists:
 
-        if 'Range' in request.headers:
+        if request.is_range_requested():
+
             response = HttpResponse(protocol=request.protocol, status_code=206,
                 content_range=request.headers['Range'])
         else:
@@ -43,9 +45,9 @@ def run(host, port):
     serversock.listen(2)
 
     while 1:
-        Log.info('waiting for connection...')
+        Log.info('Waiting for connection...')
         clientsock, addr = serversock.accept()
-        Log.info('...connected from: %s' % addr)
+        Log.info('Connected from: %s', addr)
 
         thread.start_new_thread(handle_request, (clientsock,))
 
