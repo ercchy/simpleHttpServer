@@ -32,7 +32,7 @@ Run:
     * video should start streaming beautifully
     * move video timeline to different position
     * see how nicely simple HTTP server handles range requests
-
+    
 Possibilities:
 
 * Command line parameters for run.py
