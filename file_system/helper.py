@@ -1,6 +1,7 @@
 import os
 import mimetypes
 from config import STATIC_FILES_DIR
+from config import FILE_CHUNK_SIZE
 
 class File(object):
     def __init__(self, request_uri=None, file_name=None, file_size=None, exists=False, mime_type=None):
@@ -18,6 +19,35 @@ class File(object):
 
     def open(self):
         return open(self.file_name, 'rb')
+
+
+    def calculate_range(self, range):
+        range_start, range_end = 0, None
+
+        if range:
+            range_start, range_end = range
+
+        if not range_end:
+            range_end = self.file_size - 1
+
+        return range_start, range_end
+
+
+    def stream_to(self, output, range, file_chunk_size=None):
+
+        if not file_chunk_size:
+            file_chunk_size = FILE_CHUNK_SIZE
+
+        range_start, range_end = range
+
+        with self.open() as f:
+            f.seek(range_start)
+            remaining_bytes = range_end - range_start + 1
+
+            while remaining_bytes > 0:
+                bytes_read = f.read(min(remaining_bytes, file_chunk_size))
+                output.sendall(bytes_read)
+                remaining_bytes -= file_chunk_size
 
 
 def get_file(request_uri):

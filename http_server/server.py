@@ -23,7 +23,7 @@ def handle_request(clientsock):
         if request.is_range_requested():
 
             response = HttpResponse(protocol=request.protocol, status_code=206,
-                content_range=request.headers['Range'])
+                range=request.get_range())
         else:
             response = HttpResponse(protocol=request.protocol, status_code=200)
 
