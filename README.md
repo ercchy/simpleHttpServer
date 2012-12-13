@@ -1,7 +1,6 @@
 ### Simple multi-threaded file-based HTTP server
 
-Functionality:
-
+##### Functionality:
 * multi-threaded using thread pool
 * support for GET requests only
 * support for static content only
@@ -9,21 +8,39 @@ Functionality:
 * support for 200, 206 and 404 HTTP response status codes
 * support for single range HTTP GET requests (RFC 2616)
 
-Install:
+##### Install:
 
-1. clone repository
+1. clone repository from github
+
+	```
+	git clone https://github.com/ercchy/simpleHttpServer.git simpleHttpServer
+	```
 2. create virtual enviroment
-3. pip install -r requirements.txt
-4. nosetests
+	```
+	virtualenv simpleserver
+	souce simpleserver/bin/activate
+	```
+3. install requirements for server
+	```
+	pip install -r requirements.txt
+	```
 
-Run:
+4. run tests to check if eveything is OK
+	```
+	nosetests .
+	```
 
-1. python run.py
+#### Run:
+
+1. run server	
+	```
+	python run.py
+	```
+
 2. open latest Chrome browser
     * open url: http://localhost:5555/test_1.txt
     * open url: http://localhost:5555/test_2.html
-    * open url: http://localhost:5555/test_3.html
-
+    * open url: http://localhost:5555/test_3.html	
 3. everything works?
 4. copy larger mp4 video file to static_files folder
     * rename file to test_5.mp4
@@ -32,8 +49,7 @@ Run:
     * move video timeline to different position
     * see how nicely simple HTTP server handles range requests
 
-Possibilities:
-
+#### Possibilities:
 * Command line parameters for run.py
 * Add dynamic url routes and views
 * Templating
