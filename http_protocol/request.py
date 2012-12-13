@@ -2,7 +2,10 @@
 simpleHttpServer protocol parsing and handling.
 """
 import re
+import logging
 from exceptions import HttpParseException
+
+Log = logging.getLogger('simpleHttpServer.server')
 
 
 class HttpRequest(object):
@@ -43,7 +46,9 @@ class HttpRequest(object):
 def parse_http_request(data):
     # guard, check input parameters
     if not data:
-        raise HttpParseException('Input parameter data must be provided.')
+        error = 'Input parameter data must be provided.'
+        Log.debug(error)
+        raise HttpParseException(error)
 
     data_lines = data.splitlines(False)
 
@@ -51,8 +56,9 @@ def parse_http_request(data):
     request_cmpts = request_line.split(' ')
 
     if len(request_cmpts) != 3:
-        raise HttpParseException('Cannot parse HTTP request line: %s' %
-                                 request_line)
+        error = 'Cannot parse HTTP request line: %s' % request_line
+        Log.debug(error)
+        raise HttpParseException(error)
     method, request_uri, protocol = request_cmpts[0], request_cmpts[1], request_cmpts[2]
 
     headers = {}
