@@ -29,8 +29,11 @@ class ThreadPool:
         for i in range(num_threads):
             Worker(self.tasks)
 
-    def add_task(self, func, *args, **kargs):
-        self.tasks.put((func, args, kargs))
+    def __str__(self):
+        return 'Thread Pool tasks: %s' % self.tasks
+
+    def add_task(self, function, *args, **kwargs):
+        self.tasks.put((function, args, kwargs))
 
     def wait_completion(self):
         self.tasks.join()
