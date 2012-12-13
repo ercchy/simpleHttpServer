@@ -1,5 +1,5 @@
 """
-Mock object intended to use in testing
+Mock client socket used for testing.
 """
 
 

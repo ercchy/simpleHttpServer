@@ -1,5 +1,5 @@
 """
-My simple thread Pool creation and task execution.
+ThreadPool simple tests.
 """
 
 from Queue import Queue

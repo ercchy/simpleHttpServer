@@ -1,5 +1,5 @@
 """
-Worker used by ThreadPool object
+Worker used by ThreadPool class.
 """
 
 from threading import Thread

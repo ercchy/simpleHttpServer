@@ -1,6 +1,7 @@
 """
-My simple HTTP protocol parsing and handling.
+HTTP response tests.
 """
+
 from nose import tools
 from http_server.mock_client_socket import MockClientSocket
 from ..response import HttpResponse

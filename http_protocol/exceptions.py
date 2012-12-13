@@ -1,5 +1,5 @@
 """
-Custom HTTP parser exception class
+Custom HTTP exceptions.
 """
 
 

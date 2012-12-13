@@ -1,5 +1,5 @@
 """
-Helper method for File class
+File system helper.
 """
 import os
 import logging
@@ -38,7 +38,6 @@ class File(object):
         return range_start, range_end
 
     def stream_to(self, output, range, file_chunk_size=None):
-
         if not file_chunk_size:
             file_chunk_size = FILE_CHUNK_SIZE
 
@@ -48,15 +47,20 @@ class File(object):
             f.seek(range_start)
             remaining_bytes = range_end - range_start + 1
 
+            # until there is no more bytes to send
             while remaining_bytes > 0:
                 bytes_read = f.read(min(remaining_bytes, file_chunk_size))
                 try:
                     output.sendall(bytes_read)
                 except socket.error, (val, msg):
+
                     if val == 104:
-                        Log.info('Error occured: %s %s', val, msg)
+                        # supress Connection reset by peer error
+                        Log.debug('Error will be skipped: %s %s', val, msg)
                     else:
+                        Log.error('Error occured: %s %s', val, msg)
                         raise
+
                 remaining_bytes -= file_chunk_size
 
 

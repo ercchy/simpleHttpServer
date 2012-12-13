@@ -1,5 +1,5 @@
 """
-simpleHttpServer request handler
+simpleHttpServer request handler.
 """
 
 import logging
@@ -21,7 +21,6 @@ def handle_request(clientsock):
 
     Log.debug('Request received:\n%s', data)
 
-
     request = parse_http_request(data)
 
     file = get_file(request.request_uri)
@@ -29,7 +28,6 @@ def handle_request(clientsock):
     if file.exists and request.is_range_requested():
         response = HttpResponse(protocol=request.protocol, status_code=206,
                                 range=request.get_range())
-
         response.file = file
 
     elif file.exists:
@@ -50,7 +48,6 @@ def handle_request(clientsock):
 
 
 def run(host, port):
-
     address = (host, port)
     serversock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -69,4 +66,3 @@ def run(host, port):
 
         pool.add_task(handle_request, clientsock)
 
-    pool.wait_completion()

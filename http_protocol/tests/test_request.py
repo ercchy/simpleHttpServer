@@ -1,6 +1,7 @@
 """
-My simple HTTP protocol parsing and handling.
+HTTP request tests.
 """
+
 from nose import tools
 from ..request import parse_http_request
 from ..exceptions import HttpParseException

@@ -1,5 +1,5 @@
 """
-My simple file server handling.
+File system helper tests.
 """
 from nose import tools
 from helper import get_file

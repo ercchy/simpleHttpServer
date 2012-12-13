@@ -1,5 +1,5 @@
 """
-My simple HTTP protocol parsing and handling.
+HTTP response.
 """
 
 import logging
@@ -25,7 +25,6 @@ class HttpResponse(object):
                (self.protocol, self.status_code)
 
     def write_to(self, output):
-
         if self.file:
             self.headers['Content-type'] = self.file.mime_type
             self.headers['Content-Length'] = self.file.file_size

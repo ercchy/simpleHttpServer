@@ -1,5 +1,6 @@
 """
-simpleHttpServer thread pool creator
+Thread pool.
+Based on http://code.activestate.com/recipes/577187-python-thread-pool/
 """
 
 from Queue import Queue
