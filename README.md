@@ -20,7 +20,7 @@
 	$ virtualenv simpleserver
 	souce simpleserver/bin/activate
 	```
-	
+
 3. install requirements for server
 	```
 	$ pip install -r requirements.txt
