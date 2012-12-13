@@ -1,7 +1,9 @@
 """
 My simple HTTP protocol parsing and handling.
 """
+import time
 import logging
+import socket
 from status_codes import HTTP_STATUS_CODES
 
 
@@ -48,6 +50,7 @@ class HttpResponse(object):
 
         if self.file:
             self.file.stream_to(output, range=self.file.calculate_range(self.range))
+
 
 
 

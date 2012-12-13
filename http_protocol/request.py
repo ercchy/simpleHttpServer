@@ -24,7 +24,10 @@ class HttpRequest(object):
 
     def get_range(self):
 
-        range_header_value = self.headers['Range']
+        range_header_value = None
+
+        if self.is_range_requested():
+            range_header_value = self.headers['Range']
 
         if range_header_value:
             range_start, range_end = None, None
@@ -35,10 +38,10 @@ class HttpRequest(object):
             if len(range) > 1:
                 range_end = int(range[1])
 
-            return (range_start, range_end)
+            return range_start, range_end
 
-        else:
-            return (None, None)
+
+        return None, None
 
 
 def parse_http_request(data):

@@ -1,7 +1,11 @@
 import os
+import logging
 import mimetypes
+import socket
 from config import STATIC_FILES_DIR
 from config import FILE_CHUNK_SIZE
+
+Log = logging.getLogger('simpleHttpServer.helper')
 
 class File(object):
     def __init__(self, request_uri=None, file_name=None, file_size=None, exists=False, mime_type=None):
@@ -46,7 +50,12 @@ class File(object):
 
             while remaining_bytes > 0:
                 bytes_read = f.read(min(remaining_bytes, file_chunk_size))
-                output.sendall(bytes_read)
+                try:
+                    output.sendall(bytes_read)
+                except socket.error, (val, msg):
+                    if val == 104:
+                        Log.debug('')
+                        pass
                 remaining_bytes -= file_chunk_size
 
 

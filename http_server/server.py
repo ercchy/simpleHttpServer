@@ -1,6 +1,7 @@
-from socket import *
+import socket
 import thread
 import logging
+from threading import Thread
 from file_system.helper import get_file
 from http_protocol.request import parse_http_request
 from http_protocol.response import HttpResponse
@@ -16,14 +17,15 @@ def handle_request(clientsock):
     Log.debug('Request received:\n%s', data)
 
     request = parse_http_request(data)
+
     file = get_file(request.request_uri)
 
     if file.exists:
 
         if request.is_range_requested():
 
-            response = HttpResponse(protocol=request.protocol, status_code=206,
-                range=request.get_range())
+            response = HttpResponse(protocol=request.protocol,
+                status_code=206, range=request.get_range())
         else:
             response = HttpResponse(protocol=request.protocol, status_code=200)
 
@@ -33,22 +35,33 @@ def handle_request(clientsock):
         response.headers['Content-type'] = 'text/plain'
         response.content = 'This file does not exist!'
 
+    Log.info('GET %s %s %s %s',
+        request.request_uri, request.protocol, request.get_range(), response.status_code)
+
     response.write_to(clientsock)
     clientsock.close()
-
 
 def run(host, port):
 
     address = (host, port)
-    serversock = socket(AF_INET, SOCK_STREAM)
+    serversock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     serversock.bind(address)
     serversock.listen(2)
 
+    Log.info('Server started...')
+
     while 1:
-        Log.info('Waiting for connection...')
+        Log.debug('Waiting for connection...')
+
         clientsock, addr = serversock.accept()
-        Log.info('Connected from: %s', addr)
+        Log.debug('Connected from: %s', addr)
 
         thread.start_new_thread(handle_request, (clientsock,))
+        #Thread(target=handle_request, args=(clientsock,)).start()
+
+
+
+
 
 

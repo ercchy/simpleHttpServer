@@ -1,7 +1,3 @@
-- Add logger
 - Command line parameters for run.py
-- Threading and threadpool for http server
-- Support for range request in http server
-- Parse Http request query
+- Threadpool for http server
 - Add dynamic url routes
-- Add file streaming

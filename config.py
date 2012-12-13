@@ -10,6 +10,7 @@ STATIC_FILES_DIR = os.path.join(PROJECT_DIR, 'static_files')
 
 FILE_CHUNK_SIZE = 1024 * 1024
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -39,7 +40,7 @@ LOGGING = {
         'simpleHttpServer': {
             'handlers':['file-log', 'console'],
             'propagate': False,
-            'level':'DEBUG',
+            'level':'INFO',
         },
     },
 }
