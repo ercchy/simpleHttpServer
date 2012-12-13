@@ -54,7 +54,7 @@ class File(object):
                     output.sendall(bytes_read)
                 except socket.error, (val, msg):
                     if val == 104:
-                        Log.debug('')
+                        Log.debug('Error occured: %s %s', val, msg)
                         pass
                 remaining_bytes -= file_chunk_size
 

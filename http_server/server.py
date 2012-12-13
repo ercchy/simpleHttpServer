@@ -1,10 +1,9 @@
-import socket
-import thread
 import logging
-from threading import Thread
+import socket
 from file_system.helper import get_file
 from http_protocol.request import parse_http_request
 from http_protocol.response import HttpResponse
+from http_server.thread_pool import ThreadPool
 
 Log = logging.getLogger('simpleHttpServer.server')
 
@@ -41,6 +40,7 @@ def handle_request(clientsock):
     response.write_to(clientsock)
     clientsock.close()
 
+
 def run(host, port):
 
     address = (host, port)
@@ -51,17 +51,14 @@ def run(host, port):
 
     Log.info('Server started...')
 
+    pool = ThreadPool(3)
+
     while 1:
         Log.debug('Waiting for connection...')
 
         clientsock, addr = serversock.accept()
         Log.debug('Connected from: %s', addr)
 
-        thread.start_new_thread(handle_request, (clientsock,))
-        #Thread(target=handle_request, args=(clientsock,)).start()
+        pool.add_task(handle_request, clientsock)
 
-
-
-
-
-
+    pool.wait_completion()
