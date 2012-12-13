@@ -1,3 +1,6 @@
+"""
+Mock object intended to use in testing
+"""
 
 
 class MockClientSocket(object):
@@ -6,14 +9,11 @@ class MockClientSocket(object):
         self.recv_data = recv_data
         self.close_called = False
 
-
     def sendall(self, data):
         self.sent_data += data
 
-
     def recv(self, buffer_size):
         return self.recv_data
-
 
     def close(self):
         self.close_called = True

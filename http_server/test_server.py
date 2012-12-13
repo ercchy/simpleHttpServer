@@ -103,15 +103,3 @@ def test_handle_request_range_from_middle():
 
     # assert
     tools.assert_equals(clientsock.sent_data, HTTP_RESPONSE_RANGE_FROM_MIDDLE)
-
-
-
-
-
-
-
-
-
-
-
-

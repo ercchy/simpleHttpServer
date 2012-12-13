@@ -1,5 +1,5 @@
 """
-My simple HTTP protocol parsing and handling.
+simpleHttpServer protocol parsing and handling.
 """
 import re
 from exceptions import HttpParseException
@@ -12,15 +12,12 @@ class HttpRequest(object):
         self.protocol = protocol
         self.headers = headers
 
-
     def __str__(self):
         return 'HttpRequest (method=%s, request_uri=%s, protocol=%s)' % \
                (self.method, self.request_uri, self.protocol)
 
-
     def is_range_requested(self):
         return 'Range' in self.headers
-
 
     def get_range(self):
 
@@ -40,7 +37,6 @@ class HttpRequest(object):
 
             return range_start, range_end
 
-
         return None, None
 
 
@@ -55,8 +51,8 @@ def parse_http_request(data):
     request_cmpts = request_line.split(' ')
 
     if len(request_cmpts) != 3:
-        raise HttpParseException('Cannot parse HTTP request line: %s' % request_line)
-
+        raise HttpParseException('Cannot parse HTTP request line: %s' %
+                                 request_line)
     method, request_uri, protocol = request_cmpts[0], request_cmpts[1], request_cmpts[2]
 
     headers = {}

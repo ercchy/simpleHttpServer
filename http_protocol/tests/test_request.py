@@ -114,12 +114,3 @@ def test_request_parsing_with_range_from_middle():
     # assert
     tools.assert_true(http_request.is_range_requested())
     tools.assert_equals(http_request.get_range(), (5, 10))
-
-
-
-
-
-
-
-
-

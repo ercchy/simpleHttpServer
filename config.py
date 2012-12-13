@@ -1,7 +1,12 @@
+"""
+Configuration settings.
+"""
+
 import os
 import logging.config
 
 HOST = '0.0.0.0'
+
 PORT = 5555
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -10,6 +15,7 @@ STATIC_FILES_DIR = os.path.join(PROJECT_DIR, 'static_files')
 
 FILE_CHUNK_SIZE = 1024 * 1024
 
+RECV_BUFSIZ = 1024
 
 LOGGING = {
     'version': 1,
@@ -23,9 +29,9 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
         'file-log': {
@@ -38,9 +44,9 @@ LOGGING = {
     },
     'loggers': {
         'simpleHttpServer': {
-            'handlers':['file-log', 'console'],
+            'handlers': ['file-log', 'console'],
             'propagate': False,
-            'level':'INFO',
+            'level': 'INFO',
         },
     },
 }
@@ -48,4 +54,3 @@ LOGGING = {
 
 def setup_logging():
     logging.config.dictConfig(LOGGING)
-

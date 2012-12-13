@@ -26,13 +26,3 @@ This is a test'''
 
     #assert
     tools.assert_equals(clientsock.sent_data, expected_response_msg)
-
-
-
-
-
-
-
-
-
-

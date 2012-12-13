@@ -1,16 +1,14 @@
 """
 My simple HTTP protocol parsing and handling.
 """
-import time
-import logging
-import socket
-from status_codes import HTTP_STATUS_CODES
 
+import logging
+from status_codes import HTTP_STATUS_CODES
 
 Log = logging.getLogger('simpleHttpServer.response')
 
-class HttpResponse(object):
 
+class HttpResponse(object):
 
     def __init__(self, protocol, status_code, range=None):
         assert status_code in HTTP_STATUS_CODES, 'Unknown status code.'
@@ -22,11 +20,9 @@ class HttpResponse(object):
         self.content = ''
         self.file = None
 
-
     def __str__(self):
         return 'HttpRequest (protocol=%s, status_code=%s)' % \
                (self.protocol, self.status_code)
-
 
     def write_to(self, output):
 
@@ -50,9 +46,6 @@ class HttpResponse(object):
 
         if self.file:
             self.file.stream_to(output, range=self.file.calculate_range(self.range))
-
-
-
 
 
 def render_http_response(response):

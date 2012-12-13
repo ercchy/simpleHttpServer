@@ -15,7 +15,6 @@ Host: localhost:5555'''
 def test_get_file_1():
     file = get_file(FILE)
 
-
     tools.assert_equals(file.exists, True)
     tools.assert_equals(file.mime_type, 'text/plain')
 

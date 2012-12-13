@@ -1,3 +1,6 @@
+"""
+Helper method for File class
+"""
 import os
 import logging
 import mimetypes
@@ -7,6 +10,7 @@ from config import FILE_CHUNK_SIZE
 
 Log = logging.getLogger('simpleHttpServer.helper')
 
+
 class File(object):
     def __init__(self, request_uri=None, file_name=None, file_size=None, exists=False, mime_type=None):
         self.request_uri = request_uri
@@ -15,15 +19,12 @@ class File(object):
         self.exists = exists
         self.mime_type = mime_type
 
-
     def __str__(self):
         return 'File (request_uri=%s, file_name=%s, exists=%s, mime_type=%s)' % \
                (self.request_uri, self.file_name, self.exists, self.mime_type)
 
-
     def open(self):
         return open(self.file_name, 'rb')
-
 
     def calculate_range(self, range):
         range_start, range_end = 0, None
@@ -35,7 +36,6 @@ class File(object):
             range_end = self.file_size - 1
 
         return range_start, range_end
-
 
     def stream_to(self, output, range, file_chunk_size=None):
 

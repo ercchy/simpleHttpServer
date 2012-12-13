@@ -1,3 +1,2 @@
 - Command line parameters for run.py
-- Threadpool for http server
 - Add dynamic url routes
