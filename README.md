@@ -23,11 +23,12 @@ Run:
    ** open url: http://localhost:5555/test_1.txt
    ** open url: http://localhost:5555/test_2.html
    ** open url: http://localhost:5555/test_3.html
+
 3. everything works?
 4. copy larger mp4 video file to static_files folder
    ** rename file to test_5.mp4
    ** open url: http://localhost:5555/test_5.mp4
    ** video should start streaming beautifully
    ** move video timeline to different position
-   ** see how nicely simple HTTP server handles range requests
+   ** see how nicely simple HTTP server handles range requests  
 
