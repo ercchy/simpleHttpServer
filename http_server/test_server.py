@@ -34,11 +34,11 @@ Host: localhost:5555
 Range: bytes=0-'''
 
 HTTP_RESPONSE_RANGE_FROM_ZERO = \
-'''HTTP/1.1 200 OK
+'''HTTP/1.1 206 Partial Content
 Content-Length: 16
 Content-type: text/plain
 Accept-Ranges: bytes
-Range: bytes=0-15/16
+Content-Range: bytes 0-15/16
 
 This is a test 1'''
 
@@ -48,11 +48,11 @@ Host: localhost:5555
 Range: bytes=5-'''
 
 HTTP_RESPONSE_RANGE_FROM_MIDDLE = \
-'''HTTP/1.1 200 OK
+'''HTTP/1.1 206 Partial Content
 Content-Length: 11
 Content-type: text/plain
 Accept-Ranges: bytes
-Range: bytes=5-15/16
+Content-Range: bytes 5-15/16
 
 is a test 1'''
 
@@ -60,10 +60,10 @@ is a test 1'''
 
 
 def test_handle_request_unknown_file():
-    #setup
+    # setup
     clientsock = MockClientSocket(recv_data=HTTP_REQUEST_UNKNOWN_FILE)
 
-    #run
+    # run
     handle_request(clientsock)
 
     # assert
@@ -81,6 +81,29 @@ def test_handle_request_known_file():
     # assert
     tools.assert_equals(clientsock.close_called, True)
     tools.assert_equals(clientsock.sent_data, HTTP_RESPONSE_KNOWN_FILE)
+
+
+def test_handle_request_range_from_zero():
+    # setup
+    clientsock = MockClientSocket(recv_data=HTTP_REQUEST_RANGE_FROM_ZERO)
+
+    # run
+    handle_request(clientsock)
+
+    # assert
+    tools.assert_equals(clientsock.sent_data, HTTP_RESPONSE_RANGE_FROM_ZERO)
+
+
+def test_handle_request_range_from_middle():
+    # setup
+    clientsock = MockClientSocket(recv_data=HTTP_REQUEST_RANGE_FROM_MIDDLE)
+
+    # run
+    handle_request(clientsock)
+
+    # assert
+    tools.assert_equals(clientsock.sent_data, HTTP_RESPONSE_RANGE_FROM_MIDDLE)
+
 
 
 

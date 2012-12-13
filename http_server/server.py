@@ -1,8 +1,11 @@
 from socket import *
 import thread
+import logging
 from file_system.helper import get_file
 from http_protocol.request import parse_http_request
 from http_protocol.response import HttpResponse
+
+Log = logging.getLogger('simpleHttpServer.server')
 
 BUFSIZ = 1024
 
@@ -40,9 +43,9 @@ def run(host, port):
     serversock.listen(2)
 
     while 1:
-        print 'waiting for connection...'
+        Log.info('waiting for connection...')
         clientsock, addr = serversock.accept()
-        print '...connected from:', addr
+        Log.info('...connected from: %s' % addr)
 
         thread.start_new_thread(handle_request, (clientsock,))
 
