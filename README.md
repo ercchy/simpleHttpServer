@@ -33,3 +33,10 @@ Run:
     * move video timeline to different position
     * see how nicely simple HTTP server handles range requests
 
+Possibilities:
+
+* Command line parameters for run.py
+* Add dynamic url routes and views
+* Templating
+* And so much more ...
+
