@@ -11,26 +11,22 @@
 ##### Install:
 
 1. clone repository from github
-	
 	```
-	git clone https://github.com/ercchy/simpleHttpServer.git simpleHttpServer
+	$ git clone https://github.com/ercchy/simpleHttpServer.git simpleHttpServer
 	```
 2. create virtual enviroment
-
 	```
-	virtualenv simpleserver
+	$ virtualenv simpleserver
 	souce simpleserver/bin/activate
 	```
 3. install requirements for server
-
 	```
-	pip install -r requirements.txt
+	$ pip install -r requirements.txt
 	```
 
-4. run tests to check if eveything is OK    
-
+4. run tests to check if eveything is OK
 	```
-	nosetests .
+	$ nosetests .
 	```
 
 #### Run:
@@ -38,7 +34,7 @@
 1. run server
 
 	```
-	python run.py
+	$ python run.py
 	```
 
 2. open latest Chrome browser
