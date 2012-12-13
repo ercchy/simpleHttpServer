@@ -27,7 +27,7 @@
 	pip install -r requirements.txt
 	```
 
-4. run tests to check if eveything is OK
+4. run tests to check if eveything is OK    
 
 	```
 	nosetests .
